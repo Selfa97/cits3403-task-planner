@@ -1,0 +1,169 @@
+extends layout
+
+block style
+  style.
+    p {
+    font-size: 12px;
+    font-style: italic;
+    text-align: center;
+    }
+    .flex-container {
+    display: flex;
+    justify-content: space-between;
+    }
+    .form-container {
+    width: 50%;
+    min-width: 800px;
+    }
+    label,
+    input,
+    select,
+    textarea {
+    display: block;
+    }
+    select {
+    padding: 11.75px 10px;
+    width: 150px;
+    }
+    textarea {
+    height: 150px;
+    resize: none;
+    }
+    .input {
+    width: auto;
+    }
+    #skillReqError {
+    padding-left: 10px;
+    }
+
+block content
+    // Create Task Form
+    form.form-container(action='/', onsubmit='return formTask()')
+        h1(style='text-align: center') NEW TASK
+        .container
+            .flex-container
+                .input(style='width: 50%;')
+                    label(for='title')
+                        strong
+                            | Title
+                            span *
+                    input#title(type='text', placeholder='Enter Task Title', required='')
+                    small.formError -
+                .input
+                    label(for='due')
+                        strong
+                            | Due Date
+                            span *
+                    input#due(type='date', style='width: 100%; padding: 12px 0px 12px 20px;')
+                    small#dueError.formError Please Enter a Later Date
+                .input(style='text-align: center;')
+                    label(for='priority')
+                        strong
+                            | Priority
+                            span *
+                    select#priority(style='width: auto;')
+                        option(value='High') High
+                        option(selected='', value='Normal') Normal
+                        option(value='Low') Low
+                    small.formError -
+            .flex-container
+                .input
+                    label
+                        strong
+                            | Skills Required
+                            span *
+                    select#skillReq1
+                        option(value='N/A') N/A
+                        option(value='Accounting') Accounting
+                        option(value='Design') Design
+                        option(value='Leadership') Leadership
+                        option(value='Mathematics') Mathematics
+                        option(value='Programming') Programming
+                        option(value='Public Relations') Public Relations
+                    small#skillReqError.formError(style='float: none;') Please Select a Skill
+                .input
+                    label(style='color: rgb(35, 35, 35)')
+                        strong -
+                    select#skillReq2
+                        option(value='N/A') N/A
+                        option(value='Accounting') Accounting
+                        option(value='Design') Design
+                        option(value='Leadership') Leadership
+                        option(value='Mathematics') Mathematics
+                        option(value='Programming') Programming
+                        option(value='Public Relations') Public Relations
+                    small.formError -
+                .input
+                    label(style='color: rgb(35, 35, 35)')
+                        strong -
+                    select#skillReq3
+                        option(value='N/A') N/A
+                        option(value='Accounting') Accounting
+                        option(value='Design') Design
+                        option(value='Leadership') Leadership
+                        option(value='Mathematics') Mathematics
+                        option(value='Programming') Programming
+                        option(value='Public Relations') Public Relations
+                    small.formError -
+                .input
+                    label(style='color: rgb(35, 35, 35)')
+                        strong -
+                    select#skillReq4
+                        option(value='N/A') N/A
+                        option(value='Accounting') Accounting
+                        option(value='Design') Design
+                        option(value='Leadership') Leadership
+                        option(value='Mathematics') Mathematics
+                        option(value='Programming') Programming
+                        option(value='Public Relations') Public Relations
+                    small.formError -
+            .input(style='width: 100%;')
+                label(for='description')
+                    strong
+                        | Description
+                        span *
+                textarea#description(required='', placeholder='Enter a Task Description...')
+                small.formError -
+            .flex-container
+                .input
+                    label
+                        strong Dependencies
+                    select#dep1
+                        option(value='N/A') N/A
+                    small.formError -
+                .input
+                    label(style='color: rgb(35, 35, 35)')
+                        strong -
+                    select#dep2
+                        option(value='N/A') N/A
+                    small.formError -
+                .input
+                    label(style='color: rgb(35, 35, 35)')
+                        strong -
+                    select#dep3
+                        option(value='N/A') N/A
+                    small.formError -
+                .input
+                    label(style='color: rgb(35, 35, 35)')
+                        strong -
+                    select#dep4
+                        option(value='N/A') N/A
+                    small.formError -
+            .btncontainer
+            button(type='submit') Create Task
+            button#cancel.cnclBtn(type='button') Cancel
+            p
+            | *NOTE: This page will only show if the new user checked Project Manager
+            br
+            | *NOTE: This form will be the same form shown if the user is logged in and creating a new task
+
+block scripts
+    script(src='/javascripts/formValidation.js')
+    script(src='/javascripts/moment.js')
+    script.
+        var today = moment().format('YYYY-MM-DD');
+        document.getElementById("due").value = today;
+    script.
+        document.getElementById("cancel").onclick = function () {
+        location.href = "/"
+        }

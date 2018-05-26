@@ -1,0 +1,62 @@
+extends layout
+
+block style
+  style.
+    .center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    }
+    .about>h1 {
+    font-size: 35px;
+    }
+    .about>p {
+    font-weight: normal;
+    font-size: 20px;
+    }
+    button {
+    width: 400px;
+    font-size: 25px;
+    font-weight: bold;
+    height: auto;
+    }
+    .actionContainer {
+    background-color: rgba(35, 35, 35, .6);
+    padding-bottom: 15px;
+    box-shadow: 0 0 10px 10px rgba(35, 35, 35, .6);
+    }
+
+block content
+  // Open Theme
+  section.open
+    .center
+      h1 Task Planner
+      h2 Get organised.
+  // About
+  section.about
+    h1 What Is Task Planner?
+    p
+      | Task Planner is a tool hand crafted to assist project managers outsource, supervise and prioritise tasks.
+      br
+      em Collaboration has never been simpler!
+    h1 How Does Task Planner Work?
+    p
+      | Once a Project Manager is registered, they can start creating tasks. Project Managers will specify have the task&apos;s priority,
+      | due-date, dependencies and outline any necessary skills required to complete the task.
+    p
+      | Task Planner will then suggest users that have the skills required to complete the task, and who aren&apos;t too overloaded.
+    p
+      | Users are notified about a single task at a time, keeping jobs scheduled and efficient. Our advanced task allocation alogrithm
+      | will ensure all tasks are completed before the due date allowing for smooth operation and execution of your project.
+  // Call To Action
+  section.callToAction(style='text-align: center')
+    .actionContainer
+      h1 Start Planning Your Tasks!
+      button#actionBtn.callToActionBtn(type='button') Register Now
+
+block scripts
+  script.
+        document.getElementById("actionBtn").onclick = function () {
+        location.href = "register"
+        }
