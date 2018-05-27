@@ -7,7 +7,20 @@ var logger = require('morgan');
 var indexRouter = require('./app_server/routes/index');
 var usersRouter = require('./app_server/routes/users');
 
+// init mongo
+var mongo = require('mongo');
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/users');
+var db = mongoose.connection;
+
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+
 var app = express();
+
+// init passport
+app.use(passport.initialize());
+app.use(passport.session());
 
 // view engine setup
 app.set('views', path.join(__dirname,'app_server', 'views'));

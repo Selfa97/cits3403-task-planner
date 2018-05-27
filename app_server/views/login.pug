@@ -16,15 +16,15 @@ block style
 
 block content
   // Login Form
-  form.form-container(action='index.html')
+  form.form-container(action='/login', method = 'post')
     h1(style='text-align: center; margin: 0;') LOGIN
     .container
       label(for='uname')
         strong Username
-      input#uname(type='text', placeholder='Enter Username', required='')
+      input#uname(type='text', placeholder='Enter Username',name = 'username', required='')
       label(for='psw')
         strong Password
-      input#psw(type='password', placeholder='Enter Password', required='')
+      input#psw(type='password', placeholder='Enter Password',name = 'password', required='')
       label(style='font-size: 16px')
         input#remember(type='checkbox', checked='checked')
         |  Remember me
