@@ -89,4 +89,7 @@ router.get('/create-task', ctrlTasks.createTask);
 /* GET References Page */
 router.get('/references', ctrlMain.references);
 
+/* GET View Tasks Page */
+router.get('/view-tasks', ctrlTasks.viewTask);
+
 module.exports = router;
