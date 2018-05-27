@@ -1,1 +1,106 @@
 extends layout
+
+block style
+    style.
+        .form-container {
+            width: 40%;
+            padding-bottom: 50px;
+        }
+
+        .accordion {
+            background-color: rgb(50, 50, 50);
+            color: white;
+            cursor: pointer;
+            width: 85%;
+            margin: 0 auto;
+            text-align: left;
+            border-bottom: 1px solid #e69b22;
+            outline: none;
+            border-radius: 0px;
+            transition: 0.4s;
+            display: block;
+        }
+
+        .accordion>p {
+            margin: 0;
+            padding: 15px 50px;
+            font-size: 20px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .accordion:hover {
+             filter: brightness(120%);
+        }
+        
+        .accordion>p::after {
+            content: '+';
+            font-weight: normal;
+            font-size: 20px;
+            float: right;
+            margin-left: 5px;
+        }
+
+        .active>p::after {
+            content: "-";
+        }
+
+        .panel {
+            width: 85%;
+            text-align: left;
+            margin: 0 auto;
+            background-color: rgb(100, 100, 100);
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.2s ease-out;
+        }
+
+        .panel p {
+            padding: 0 50px;
+        }
+
+        .flex {
+            display: flex;
+            justify-content: space-between;
+        }
+
+block content
+    div.form-container(style='text-align: center')
+        h1(style='margin-bottom: 20px') WELCOME USER
+        div.accordion 
+            p Finish Project
+        div.panel
+            p.flex
+                span 
+                    strong Title:
+                    |  Finish Project 
+                span 
+                    strong Priority:
+                    |  High
+                span 
+                    strong Due:
+                    |  28/05/2018
+            p
+                strong Dependencies:
+                br
+                span.flex
+                    span N/A
+                    span N/A
+                    span N/A
+                    span N/A
+            p
+                strong Description: 
+                br 
+                | Work on the project until we are happy enough to submit.
+        div.accordion 
+            p Task 2
+        div.panel
+            p Test task description
+        div.accordion 
+            p Task 3
+        div.panel
+            p Test task description
+            
+block scripts
+    script(src='/javascripts/accordion.js')
