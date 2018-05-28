@@ -192,5 +192,14 @@ router.post('/create-task',function(req,res){
 router.get('/references', ctrlMain.references);
 /* GET View Tasks Page */
 router.get('/view-tasks', loggedIn, ctrlTasks.viewTasks);
+/* POST View Tasks Page*/
+router.post('/view-tasks', function(req, res) {
+    var title = req.body.taskTitle;
+    Task.taskComplete(title, function(err, task) {
+        if(err) throw err;
+        console.log(task);
+    });
+    res.redirect('/view-tasks');
+});
 
 module.exports = router;

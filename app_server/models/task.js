@@ -32,10 +32,15 @@ var Task = module.exports = mongoose.model('Task', TaskSchema);
 
 module.exports.createNewTask = function(newTask, callback){  
     newTask.save(callback);
-}
+};
 
 module.exports.getTasksByUsername = function(username, callback) {
     var query = {'uname': username};
-    console.log(query);
     Task.find(query, callback);
-}
+};
+
+module.exports.taskComplete = function(title, callback) {
+    var query = {'title': title};
+    var update = {'complete': true}
+    Task.findOneAndUpdate(query, update, callback);
+};

@@ -68,9 +68,15 @@ block style
             justify-content: space-between;
         }
 
+        .complete {
+            width: 80%;
+            float: none !important;
+            margin: 0 0 20px 0;
+        }
+
 block content
     div.form-container(style='text-align: center')
-        h1(style='margin-bottom: 20px') WELCOME #{user.fname.toUpperCase()}
+        h1(style='margin-bottom: 20px') WELCOME #{user.fname.toUpperCase()} - VIEW TASKS
         if(tasks.length)
             each task in tasks
                 div.accordion 
@@ -100,6 +106,10 @@ block content
                         strong Description: 
                         br 
                         | #{task.description}
+                    if(!task.complete)
+                        form(style='text-align: center' action='/view-tasks' method='post')
+                            input(type='text', name="taskTitle", value=task.title readonly hidden)
+                            button.complete(type='submit') Complete
         else
             p No Allocated Tasks
             
