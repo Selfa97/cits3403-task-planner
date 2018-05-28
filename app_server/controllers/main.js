@@ -1,25 +1,14 @@
-var User = require('../models/user');
-
 /*GET HOME Page*/
 module.exports.index = function(req, res) {
-    User.getUserByUsername(req.session.user, function(err, user) {
-        if (err) throw err;
-        res.render('index', { user: user });
-    });
+    res.render('index');
 };
 
 /*GET LOGIN Page*/
 module.exports.login = function(req, res) {
-    User.getUserByUsername(req.session.user, function(err, user) {
-        if (err) throw err;
-        res.render('login', { user: user });
-    });
+    res.render('login');
 };
 
 /*GET REFERENCES Page*/
 module.exports.references = function(req, res) {
-    User.getUserByUsername(req.session.user, function(err, user) {
-        if (err) throw err;
-        res.render('references', { user: user });
-    });
+    res.render('references');
 };

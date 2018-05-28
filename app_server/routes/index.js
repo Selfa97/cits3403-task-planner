@@ -13,8 +13,8 @@ var LocalStrategy = require('passport-local').Strategy;
 
 // function to check whether a user is logged in before loading webpage
 function loggedIn (req, res, next) {
-    if(req.session.user) {
-        next();
+    if(req.isAuthenticated()) {
+        return next();
     } else {
         res.redirect('/login');
     }
@@ -62,8 +62,7 @@ router.post('/login',
     passport.authenticate('local', {successsRedirect:'/skills',failureRedirect:'/login', failureFlash: false}),
     function(req,res){
         // get current user's username
-        var user = req.user;
-        req.session.user = user.uname;
+        req.session.user = req.user.uname;
         // check if the user already filled the skills form
         Skills.getUserByUsername(req.session.user, function(err,user){
             if (err) throw err;

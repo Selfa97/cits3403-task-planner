@@ -13,28 +13,37 @@ var usersRouter = require('./app_server/routes/users');
 // init mongo
 var mongo = require('mongo');
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/users');
+// LocalHost Connection
+//mongoose.connect('mongodb://localhost/users');
+// External mLab Connection
+mongoose.connect('mongodb://webApp:password@ds133550.mlab.com:33550/taskplanner');
 var db = mongoose.connection;
 
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 
 var app = express();
-
-// init passport
-app.use(passport.initialize());
-app.use(passport.session());
-
-// view engine setup
-app.set('views', path.join(__dirname,'app_server', 'views'));
-app.set('view engine', 'pug');
-
 app.use(cookieParser());
 app.use(session({
     secret: '34SDgsdgspxxxxxxxdfsG', // just a long random string
     resave: false,
     saveUninitialized: true
 }));
+// init passport
+app.use(passport.initialize());
+app.use(passport.session());
+
+// set local var user for pug views to test if user is logged in
+app.use(function(req, res, next) {
+  if(req.user) {
+    res.locals.user = req.user
+  }
+  next();
+});
+
+// view engine setup
+app.set('views', path.join(__dirname,'app_server', 'views'));
+app.set('view engine', 'pug');
 
 app.use(logger('dev'));
 app.use(express.json());
