@@ -1,4 +1,4 @@
-User = require('../models/user');
+var User = require('../models/user');
 
 /*GET HOME Page*/
 module.exports.index = function(req, res) {
