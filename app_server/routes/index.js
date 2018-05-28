@@ -59,26 +59,29 @@ passport.deserializeUser(function (id, done) {
 router.get('/login', ctrlMain.login);
 // get post data from login form
 router.post('/login',
-    passport.authenticate('local', {successsRedirect:'/skills',failureRedirect:'/login', failureFlash: false}),
-    function(req,res){
-        // get current user's username
-        req.session.user = req.user.uname;
-        // check if the user already filled the skills form
-        Skills.getUserByUsername(req.session.user, function(err,user){
-            if (err) throw err;
-            console.log(user);
-            // if so redirect to creating task
-            if(user){
-                console.log('user already added skills')
-                res.redirect('/view-tasks');
-            } else {
-                // fill skills form
-                console.log("user is " +req.session.user);
-                console.log("log in sid "+req.sessionID);
-                res.redirect('/skills');
-            }
-        }); 
-    });
+  passport.authenticate('local', {successsRedirect:'/skills',failureRedirect:'/login', failureFlash: false}),
+  function(req,res){
+    // get current user's username
+    req.session.user = req.user.uname;
+    // check if the user already filled the skills form
+    Skills.getUserByUsername(req.session.user, function(err,user){
+        if (err) throw err;
+        console.log(user);
+        // if so redirect to creating task
+        if(user){
+            console.log('user already added skills')
+            res.redirect('/view-tasks');
+        } else {
+            // fill skills form
+            console.log("user is " +req.session.user);
+            console.log("log in sid "+req.sessionID);
+            res.redirect('/skills');
+        }
+    }); 
+});
+
+/*GET Logout Page */
+router.get('/logout', ctrlMain.logout);
 
 /* GET Register Page */
 router.get('/register', ctrlRegister.register);
