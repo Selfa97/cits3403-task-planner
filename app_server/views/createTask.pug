@@ -38,7 +38,7 @@ block style
 
 block content
     // Create Task Form
-    form.form-container(action='/', onsubmit='return formTask()')
+    form.form-container(action='/create-task',method = 'post', onsubmit='return formTask()')
         h1(style='text-align: center') NEW TASK
         .container
             .flex-container
@@ -47,21 +47,21 @@ block content
                         strong
                             | Title
                             span *
-                    input#title(type='text', placeholder='Enter Task Title', required='')
+                    input#title(type='text',name='title', placeholder='Enter Task Title', required='')
                     small.formError -
                 .input
                     label(for='due')
                         strong
                             | Due Date
                             span *
-                    input#due(type='date', style='width: 100%; padding: 12px 0px 12px 20px;')
+                    input#due(type='date',name='due', style='width: 100%; padding: 12px 0px 12px 20px;')
                     small#dueError.formError Please Enter a Later Date
                 .input(style='text-align: center;')
                     label(for='priority')
                         strong
                             | Priority
                             span *
-                    select#priority(style='width: auto;')
+                    select#priority(name='priority',style='width: auto;')
                         option(value='High') High
                         option(selected='', value='Normal') Normal
                         option(value='Low') Low
@@ -72,7 +72,7 @@ block content
                         strong
                             | Skills Required
                             span *
-                    select#skillReq1
+                    select#skillReq1(name = 'skillReq')
                         option(value='N/A') N/A
                         option(value='Accounting') Accounting
                         option(value='Design') Design
@@ -84,7 +84,7 @@ block content
                 .input
                     label(style='color: rgb(35, 35, 35)')
                         strong -
-                    select#skillReq2
+                    select#skillReq2(name = 'skillReq')
                         option(value='N/A') N/A
                         option(value='Accounting') Accounting
                         option(value='Design') Design
@@ -96,7 +96,7 @@ block content
                 .input
                     label(style='color: rgb(35, 35, 35)')
                         strong -
-                    select#skillReq3
+                    select#skillReq3(name = 'skillReq')
                         option(value='N/A') N/A
                         option(value='Accounting') Accounting
                         option(value='Design') Design
@@ -108,7 +108,7 @@ block content
                 .input
                     label(style='color: rgb(35, 35, 35)')
                         strong -
-                    select#skillReq4
+                    select#skillReq4(name = 'skillReq')
                         option(value='N/A') N/A
                         option(value='Accounting') Accounting
                         option(value='Design') Design
@@ -122,40 +122,22 @@ block content
                     strong
                         | Description
                         span *
-                textarea#description(required='', placeholder='Enter a Task Description...')
+                textarea#description(name = 'description',required='', placeholder='Enter a Task Description...')
                 small.formError -
             .flex-container
-                .input
-                    label
-                        strong Dependencies
-                    select#dep1
-                        option(value='N/A') N/A
-                    small.formError -
-                .input
-                    label(style='color: rgb(35, 35, 35)')
-                        strong -
-                    select#dep2
-                        option(value='N/A') N/A
-                    small.formError -
-                .input
-                    label(style='color: rgb(35, 35, 35)')
-                        strong -
-                    select#dep3
-                        option(value='N/A') N/A
-                    small.formError -
-                .input
-                    label(style='color: rgb(35, 35, 35)')
-                        strong -
-                    select#dep4
-                        option(value='N/A') N/A
-                    small.formError -
+                each val in [1, 2, 3, 4]
+                    .input
+                        label
+                            strong Dependency #{val}
+                        select.dep(name = 'dependencies')
+                            option(value='N/A') N/A
+                            if(tasks.length)
+                                each task in tasks
+                                    option(value=task.title) #{task.title}
+                        small.formError -
             .btncontainer
             button(type='submit') Create Task
             button#cancel.cnclBtn(type='button') Cancel
-            p
-            | *NOTE: This page will only show if the new user checked Project Manager
-            br
-            | *NOTE: This form will be the same form shown if the user is logged in and creating a new task
 
 block scripts
     script(src='/javascripts/formValidation.js')

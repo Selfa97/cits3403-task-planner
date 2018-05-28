@@ -16,23 +16,17 @@ var UserSchema = mongoose.Schema({
     email: {
 		type: String,
     },
-	password: {
+		password: {
 		type: String
     },
-    confirmPassword: {
-		type: String
-	},
 	contactNum: {
 		type: String
-	},
-	projectManager: {
-        type: String,
-        default: false
 	}
 });
 
 var User = module.exports = mongoose.model('User', UserSchema);
 
+db = mongoose.connection;
 module.exports.createUser = function(newUser, callback){
 	bcrypt.genSalt(10, function(err, salt) {
 	    bcrypt.hash(newUser.password, salt, function(err, hash) {
@@ -43,7 +37,7 @@ module.exports.createUser = function(newUser, callback){
 }
 
 module.exports.getUserByUsername = function(username, callback){
-    var query = {uname: username};
+		var query = {'uname': username};
     console.log(query);
 	User.findOne(query, callback);
 }

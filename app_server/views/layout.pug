@@ -21,12 +21,22 @@ html
             .navTitle
                 a(href='/') Task Planner
             ul.navMenu
-                li
-                    a(href='login') Login
-                li
-                    a(href='register') Register
-                li
-                    a(href='references') References
+                if (user)
+                    li
+                        a(href='logout') Logout
+                    li
+                        a(href='view-tasks') View Tasks
+                    li
+                        a(href='create-task') Create New Task
+                    li
+                        a(href='references') References        
+                else
+                    li
+                        a(href='login') Login
+                    li
+                        a(href='register') Register
+                    li
+                        a(href='references') References
 
         // Content
         block content
