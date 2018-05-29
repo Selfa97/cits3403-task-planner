@@ -201,5 +201,11 @@ router.post('/view-tasks', function(req, res) {
     });
     res.redirect('/view-tasks');
 });
+/*POST View Tasks Sort*/
+router.post('/sort', function(req, res) {
+    var sortBy = req.body.sort;
+    console.log(sortBy);
+    res.redirect('/view-tasks');
+});
 
 module.exports = router;

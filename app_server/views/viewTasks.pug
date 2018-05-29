@@ -74,10 +74,36 @@ block style
             margin: 0 0 20px 0;
         }
 
+        .container {
+            overflow: auto;
+            text-align: center;
+            padding: 0 0 20px 0;
+        }
+
+        .container form {
+            display: inline;
+        }
+
+        .sort {
+            width: 125px;
+            height: 30px;
+            margin: 0 25px;
+            font-size: 12px !important;
+            padding: 0;
+            float: none !important;
+        }
+
 block content
     div.form-container(style='text-align: center')
         h1(style='margin-bottom: 20px') WELCOME #{user.fname.toUpperCase()} - VIEW TASKS
         if(tasks.length)
+            .container
+                form(action='/sort' method='post')
+                    button.sort(name='sort' value='sortAuto' type='submit') Auto Sort
+                form(action='/sort' method='post')
+                    button.sort(name='sort' value='sortDate' type='submit') Sort By Date
+                form(action='/sort' method='post')
+                    button.sort(name='sort' value='sortName' type='submit') Sort By Name
             each task in tasks
                 div.accordion 
                     p #{task.title}
@@ -108,8 +134,7 @@ block content
                         | #{task.description}
                     if(!task.complete)
                         form(style='text-align: center' action='/view-tasks' method='post')
-                            input(type='text', name="taskTitle", value=task.title readonly hidden)
-                            button.complete(type='submit') Complete
+                            button.complete(type='submit' name='taskTitle' value=task.title) Complete
         else
             p No Allocated Tasks
             
