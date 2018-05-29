@@ -198,7 +198,7 @@ select {
 }
 
 .cnclBtn {
-    background-color: rgb(148, 0, 0);
+    background-color: rgb(148, 0, 0) !important;
     color: white;
 }
 

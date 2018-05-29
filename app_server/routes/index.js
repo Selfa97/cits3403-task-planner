@@ -150,6 +150,7 @@ router.post('/create-task',function(req,res){
     var description = req.body.description;
     var dependencies = req.body.dependencies;
     var uname = "none";
+    var createdBy = req.user.uname;
     // loop through skillReq, e.g. Accounting, Programming
     // see if theres one skill matches in the user's skillset
     // asign this task to that user
@@ -183,6 +184,7 @@ router.post('/create-task',function(req,res){
                         description: description,
                         dependencies: dependencies,
                         uname: uname,
+                        createdBy: createdBy,
                         complete: false
                     });
                     // create new task
@@ -195,8 +197,11 @@ router.post('/create-task',function(req,res){
             });  
         }    
     });
-    //then redirect to viewTask page
-    res.redirect('/view-tasks'); 
+    //then redirect to createdTasks page after 0.5s
+    //delay allows time for the mongodb server to process the create request
+    setTimeout(function () {
+        res.redirect('/created-tasks'); 
+    }, 500);
 });
 /* GET References Page */
 router.get('/references', ctrlMain.references);
@@ -224,6 +229,18 @@ router.post('/sort', function(req, res) {
         default:
             res.redirect('/view-tasks');
     }
+});
+
+/*GET View Created Tasks Page */
+router.get('/created-tasks', loggedIn, ctrlTasks.createdTasks);
+/*POST View Created Tasks Page*/
+router.post('/created-tasks', function(req, res) {
+    var title = req.body.taskTitle;
+    Task.removeTask(title, function(err, task) {
+        if(err) throw err;
+        console.log('removed task ' + title);
+    });
+    res.redirect('/created-tasks');
 });
 
 module.exports = router;

@@ -24,7 +24,10 @@ var TaskSchema = mongoose.Schema({
         type: Boolean
     },
     uname:{
-        type:String
+        type: String
+    },
+    createdBy: {
+        type: String
     }
 });
 
@@ -39,11 +42,22 @@ module.exports.getTasksByUsername = function(username, callback) {
     Task.find(query, callback);
 };
 
+module.exports.getCreatedTasks = function(username, callback) {
+    var query = {'createdBy': username};
+    Task.find(query, callback);
+};
+
 module.exports.taskComplete = function(title, callback) {
     var query = {'title': title};
     var update = {'complete': true}
     Task.findOneAndUpdate(query, update, callback);
 };
+
+module.exports.removeTask = function(title, callback) {
+    var query = {'title': title};
+    Task.deleteOne(query, callback);
+};
+
 module.exports.sortAuto = function(user, callback) {
     var cursor = Task.find({'uname':user}).sort({
         'due':-1});
