@@ -6,7 +6,7 @@ var TaskSchema = mongoose.Schema({
         index:true
     },
 	due: {
-		type: String
+		type: Date
     },
     priority: {
 		type: String
@@ -43,4 +43,9 @@ module.exports.taskComplete = function(title, callback) {
     var query = {'title': title};
     var update = {'complete': true}
     Task.findOneAndUpdate(query, update, callback);
+};
+module.exports.sortAuto = function(user, callback) {
+    var cursor = Task.find({'uname':user}).sort({
+        'due':-1});
+    return cursor;
 };

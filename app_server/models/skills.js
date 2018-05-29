@@ -7,7 +7,10 @@ var SkillSchema = mongoose.Schema({
     },
 	skills:[{
         type: String
-    }]
+    }],
+    taskNum:{
+        type: Number
+    }
 });
 
 var Skills = module.exports = mongoose.model('Skills', SkillSchema);
@@ -20,8 +23,26 @@ module.exports.getUserByUsername = function(username, callback){
     console.log('in skill db '+username);
     Skills.findOne(query, callback);
 }
-module.exports.getUserBySkill = function(skill, callback){
-    var query = {'skills': skill};
+module.exports.incrementTasks = function(ID, callback){
+    var query = {'_id': ID};
+    Skills.update(
+        query,
+        {$inc:{"tasks":1}},callback);
+}
+module.exports.getUserByID = function(ID, callback){
+    var query = {'_id': ID};
     console.log(query);
-    var user = Skills.findOne(query,callback);
+    Skills.findOne(query,callback); 
+}
+module.exports.getMatchingSkillsets = function(skill, callback){
+    Skills.aggregate([
+        {$sort:{tasks:1}},
+        {$match:{"skills":{$in:skill}}},
+        {$project:{"skillsCopy":"$skills","skills":1}},
+        {$unwind:"$skills"},
+        {$match:{skills:{$in:skill}}},
+        {$group:{_id:"$_id","noOfMatches":{$sum:1},"skills":{$first:"$skillsCopy"}}},
+        {$sort:{noOfMatches:-1}},
+        {$project:{"_id":1,"noOfMatches":1,skills:1}}
+    ],callback);
 }

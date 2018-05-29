@@ -154,37 +154,47 @@ router.post('/create-task',function(req,res){
     // see if theres one skill matches in the user's skillset
     // asign this task to that user
     for(var i = 0; i < skillReq.length;i++){
-        if(skillReq[i] == "N/A")continue;
-        Skills.getUserBySkill(skillReq[i], function(err,user){
-            if(err)throw err;
-            // if found
-            if(user){
-                if(uname != "none")return;
-                console.log("found suitable user");
-                console.log(user.uname);
-                // asign uname to username
-                uname = user.uname;
-                console.log('uname = '+uname);
-                var newTask = new Task({
-                    title: title,
-                    due: due,
-                    priority: priority,
-                    skillReq: skillReq,
-                    description: description,
-                    dependencies: dependencies,
-                    uname: uname,
-                    complete: false
-                });
-                // create new task
-                Task.createNewTask(newTask, function(err,task){
-                    if (err) throw err;
-                    console.log(task);
-                    console.log('added task'); 
-
-                }); 
-            }    
-        });
+        if(skillReq[i] == "N/A")skillReq[i] = "";
     }
+    Skills.getMatchingSkillsets(skillReq, function(err,users){
+        if(err)throw err;
+        // if found
+        if(users){
+            if(uname != "none")return;
+            console.log("found suitable user");
+            console.log(users);
+            console.log(users[0]._id);
+            // asign uname to username
+            Skills.incrementTasks(users[0]._id,function(err,msg){
+                if(err)throw err;
+                if(msg)console.log(msg);
+            });
+            Skills.getUserByID(users[0]._id,function(err,user){
+                if(err)throw err;
+                if(user){
+                    console.log(user);
+                    uname = user.uname;
+                    console.log('uname = '+uname);
+                    var newTask = new Task({
+                        title: title,
+                        due: due,
+                        priority: priority,
+                        skillReq: skillReq,
+                        description: description,
+                        dependencies: dependencies,
+                        uname: uname,
+                        complete: false
+                    });
+                    // create new task
+                    Task.createNewTask(newTask, function(err,task){
+                        if (err) throw err;
+                        console.log(task);
+                        console.log('added task'); 
+                    });
+                }
+            });  
+        }    
+    });
     //then redirect to viewTask page
     res.redirect('/view-tasks'); 
 });
@@ -205,7 +215,15 @@ router.post('/view-tasks', function(req, res) {
 router.post('/sort', function(req, res) {
     var sortBy = req.body.sort;
     console.log(sortBy);
-    res.redirect('/view-tasks');
+    switch(sortBy){
+        case "sortAuto":
+            var tasks = Task.sortAuto(req.session.user);
+            console.log(tasks);
+            res.redirect('/view-tasks');
+            break;
+        default:
+            res.redirect('/view-tasks');
+    }
 });
 
 module.exports = router;
