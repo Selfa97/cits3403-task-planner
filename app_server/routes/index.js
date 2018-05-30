@@ -25,7 +25,6 @@ router.get('/', ctrlMain.index);
 // for auth user
 passport.use(new LocalStrategy(
 	function (uname, password, done) {
-        console.log(uname+password);
 		User.getUserByUsername(uname, function (err, user) {
 			if (err) throw err;
 			if (!user) {
@@ -81,7 +80,7 @@ router.post('/login',
 });
 
 /*GET Logout Page */
-router.get('/logout', ctrlMain.logout);
+router.get('/logout', loggedIn, ctrlMain.logout);
 
 /* GET Register Page */
 router.get('/register', ctrlRegister.register);
@@ -125,7 +124,7 @@ router.post('/register',function(req,res){
 /* GET Skills Page */
 router.get('/skills', loggedIn, ctrlRegister.skills);
 // get post data from skills form
-router.post('/skills',function(req,res){
+router.post('/skills', loggedIn, function(req,res){
     var skills = req.body.skills;
     var newSkill = new Skills({
         uname: req.session.user,
@@ -142,7 +141,7 @@ router.post('/skills',function(req,res){
 /* GET Create Tasks Page */
 router.get('/create-task', loggedIn, ctrlTasks.createTask);
 // get post data from create task form
-router.post('/create-task',function(req,res){
+router.post('/create-task', loggedIn, function(req,res){
     var title = req.body.title;
     var due = req.body.due;
     var priority = req.body.priority;
@@ -207,8 +206,12 @@ router.post('/create-task',function(req,res){
 router.get('/references', ctrlMain.references);
 /* GET View Tasks Page */
 router.get('/view-tasks', loggedIn, ctrlTasks.viewTasks);
+/* GET View Tasks Page Date */
+router.get('/view-tasks-date', loggedIn, ctrlTasks.viewTasksDate);
+/*Get View Tasks Page Name */
+router.get('/view-tasks-name', loggedIn, ctrlTasks.viewTasksName);
 /* POST View Tasks Page*/
-router.post('/view-tasks', function(req, res) {
+router.post('/view-tasks', loggedIn, function(req, res) {
     var title = req.body.taskTitle;
     Task.taskComplete(title, function(err, task) {
         if(err) throw err;
@@ -217,14 +220,18 @@ router.post('/view-tasks', function(req, res) {
     res.redirect('/view-tasks');
 });
 /*POST View Tasks Sort*/
-router.post('/sort', function(req, res) {
+router.post('/sort', loggedIn, function(req, res) {
     var sortBy = req.body.sort;
     console.log(sortBy);
     switch(sortBy){
         case "sortAuto":
-            var tasks = Task.sortAuto(req.session.user);
-            console.log(tasks);
             res.redirect('/view-tasks');
+            break;
+        case "sortDate":
+            res.redirect('/view-tasks-date');
+            break;
+        case "sortName":
+            res.redirect('/view-tasks-name');
             break;
         default:
             res.redirect('/view-tasks');
@@ -234,7 +241,7 @@ router.post('/sort', function(req, res) {
 /*GET View Created Tasks Page */
 router.get('/created-tasks', loggedIn, ctrlTasks.createdTasks);
 /*POST View Created Tasks Page*/
-router.post('/created-tasks', function(req, res) {
+router.post('/created-tasks', loggedIn, function(req, res) {
     var title = req.body.taskTitle;
     Task.removeTask(title, function(err, task) {
         if(err) throw err;

@@ -89,21 +89,25 @@ block style
             height: 30px;
             margin: 0 25px;
             font-size: 12px !important;
+            font-weight: bold;
             padding: 0;
             float: none !important;
+        }
+
+        #disabled {
+            background-color: grey !important;
+            color: white !important;
+            cursor: default;
+        }
+
+        #disabled:hover {
+            filter: none;
         }
 
 block content
     div.form-container(style='text-align: center')
         h1(style='margin-bottom: 20px') WELCOME #{user.fname.toUpperCase()} - CREATED TASKS
         if(tasks.length)
-            .container
-                form(action='/sort' method='post')
-                    button.sort(name='sort' value='sortAuto' type='submit') Auto Sort
-                form(action='/sort' method='post')
-                    button.sort(name='sort' value='sortDate' type='submit') Sort By Date
-                form(action='/sort' method='post')
-                    button.sort(name='sort' value='sortName' type='submit') Sort By Name
             each task in tasks
                 div.accordion 
                     p #{task.title}

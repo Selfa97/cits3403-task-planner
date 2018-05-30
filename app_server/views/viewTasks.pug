@@ -89,8 +89,19 @@ block style
             height: 30px;
             margin: 0 25px;
             font-size: 12px !important;
+            font-weight: bold;
             padding: 0;
             float: none !important;
+        }
+
+        #disabled {
+            background-color: grey !important;
+            color: white !important;
+            cursor: default;
+        }
+
+        #disabled:hover {
+            filter: none;
         }
 
 block content
@@ -99,11 +110,20 @@ block content
         if(tasks.length)
             .container
                 form(action='/sort' method='post')
-                    button.sort(name='sort' value='sortAuto' type='submit') Auto Sort
+                    if(sortBy === 'auto')
+                        button#disabled.sort(disabled) Auto Sort
+                    else
+                        button.sort(name='sort' value='sortAuto' type='submit') Auto Sort
                 form(action='/sort' method='post')
-                    button.sort(name='sort' value='sortDate' type='submit') Sort By Date
+                    if(sortBy === 'date')
+                        button#disabled.sort(disabled) Sort By Date
+                    else
+                        button.sort(name='sort' value='sortDate' type='submit') Sort By Date
                 form(action='/sort' method='post')
-                    button.sort(name='sort' value='sortName' type='submit') Sort By Name
+                    if(sortBy === 'name')
+                        button#disabled.sort(disabled) Sort By Name
+                    else
+                        button.sort(name='sort' value='sortName' type='submit') Sort By Name
             each task in tasks
                 div.accordion 
                     p #{task.title}
