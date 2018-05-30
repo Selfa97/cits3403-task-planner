@@ -108,6 +108,22 @@ block content
     div.form-container(style='text-align: center')
         h1(style='margin-bottom: 20px') WELCOME #{user.fname.toUpperCase()} - CREATED TASKS
         if(tasks.length)
+            .container
+                form(action='/created-sort' method='post')
+                    if(sortBy === 'auto')
+                        button#disabled.sort(disabled) Auto Sort
+                    else
+                        button.sort(name='sort' value='sortAuto' type='submit') Auto Sort
+                form(action='/created-sort' method='post')
+                    if(sortBy === 'date')
+                        button#disabled.sort(disabled) Sort By Date
+                    else
+                        button.sort(name='sort' value='sortDate' type='submit') Sort By Date
+                form(action='/created-sort' method='post')
+                    if(sortBy === 'name')
+                        button#disabled.sort(disabled) Sort By Name
+                    else
+                        button.sort(name='sort' value='sortName' type='submit') Sort By Name
             each task in tasks
                 div.accordion 
                     p #{task.title}

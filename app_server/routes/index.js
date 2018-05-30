@@ -240,6 +240,10 @@ router.post('/sort', loggedIn, function(req, res) {
 
 /*GET View Created Tasks Page */
 router.get('/created-tasks', loggedIn, ctrlTasks.createdTasks);
+/*GET View Created Tasks Page Date */
+router.get('/created-tasks-date', loggedIn, ctrlTasks.createdTasksDate);
+/*GET View Created Tasks Page Name */
+router.get('/created-tasks-name', loggedIn, ctrlTasks.createdTasksName);
 /*POST View Created Tasks Page*/
 router.post('/created-tasks', loggedIn, function(req, res) {
     var title = req.body.taskTitle;
@@ -248,6 +252,24 @@ router.post('/created-tasks', loggedIn, function(req, res) {
         console.log('removed task ' + title);
     });
     res.redirect('/created-tasks');
+});
+/*POST Created Tasks Sort*/
+router.post('/created-sort', loggedIn, function(req, res) {
+    var sortBy = req.body.sort;
+    console.log(sortBy);
+    switch(sortBy){
+        case "sortAuto":
+            res.redirect('/created-tasks');
+            break;
+        case "sortDate":
+            res.redirect('/created-tasks-date');
+            break;
+        case "sortName":
+            res.redirect('/created-tasks-name');
+            break;
+        default:
+            res.redirect('/created-tasks');
+    }
 });
 
 module.exports = router;

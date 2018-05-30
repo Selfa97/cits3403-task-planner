@@ -66,8 +66,10 @@ function rearrangeArr(tempArr){
     for(var i = 0; i < tempLow.length;i++)res.push(tempLow[i]);
     return res;
 }
-module.exports.sortAuto = function(user,callback) {
-    var query = {'uname':user};
+module.exports.sortAuto = function(user,page,callback) {
+    var query;
+    if(page === 'view') query = {'uname':user};
+    else query = {'createdBy':user};
     var sortq = {'due':1};
     var modifiedArr = [];
     Task.find(query).sort(sortq).exec(function(err,task){
@@ -99,8 +101,10 @@ module.exports.sortAuto = function(user,callback) {
     
 };
 
-module.exports.sortDate = function(user,callback) {
-    var query = {'uname':user};
+module.exports.sortDate = function(user,page,callback) {
+    var query;
+    if(page === 'view') query = {'uname':user};
+    else query = {'createdBy':user};
     var sortq = {'due':1};
     var modifiedArr = [];
     Task.find(query).sort(sortq).exec(function(err,task){
@@ -108,8 +112,10 @@ module.exports.sortDate = function(user,callback) {
         callback(task);
     });
 };
-module.exports.sortName = function(user,callback) {
-    var query = {'uname':user};
+module.exports.sortName = function(user,page,callback) {
+    var query;
+    if(page === 'view') query = {'uname':user};
+    else query = {'createdBy':user};
     var sortq = {'title':1};
     var modifiedArr = [];
     Task.find(query).sort(sortq).exec(function(err,task){
